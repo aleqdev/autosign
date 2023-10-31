@@ -68,5 +68,22 @@ def unenroll():
     return resp.content
 
 
+@app.route("/getinfo", methods=["POST"])
+def getinfo():
+    content = request.json
+
+    print("getinfo", content["auth"])
+
+    url = f"https://online.sochisirius.ru/schedule?mobile&task=getSchedule&rec=true&begin=31.10.2023&end=14.11.2023"
+    headers = {'authorization': content["auth"]}
+
+    resp = requests.post(url, headers=headers)
+    j = resp.json()
+
+    print(j)
+
+    return j
+
+
 if __name__ == '__main__':
     app.run(debug=True)
