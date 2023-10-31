@@ -1,0 +1,137 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h3>Пользователи:</h3>
+        {% for user in users %}
+            <tr>
+                <td> {{ user.name }} </td> -
+                <td> {{ user.auth }} </td>
+            </tr>
+            <br/>
+        {% endfor %}
+
+        <br/> <br/> <br/>
+
+        <form>
+            <label for="name">Имя:</label><br/>
+            <input type="text" id="name" name="name"/> <br/>
+            <label for="auth">Авторизация:</label><br/>
+            <textarea id="auth" name="auth"></textarea> <br/>
+        </form>
+
+        <button onclick="adduser()">
+            Добавить пользователя
+        </button>
+
+        <br/> <br/> <br/>
+
+        <form>
+            <label for="zapis-id">Id мероприятия:</label><br/>
+            <input type="text" id="zapis-id" name="zapis-id"/> <br/>
+            <label for="zapis-auth">Авторизация:</label><br/>
+            <textarea id="zapis-auth" name="zapis-auth"></textarea> <br/>
+        </form>
+
+        <button onclick="enroll()">
+            Записать
+        </button>
+
+        <button onclick="unEnroll()">
+            Отписать
+        </button>
+
+        <br/> <br/>  <br/> <br/> <br/> <br/> <br/> <br/>
+
+        <form>
+            <label for="info-auth">Авторизация:</label><br/>
+            <textarea id="info-auth" name="info-auth"></textarea> <br/>
+        </form>
+
+        <button onclick="getinfo()">
+            Получить мероприятия
+        </button>
+
+        <br/> <br/>  <br/> <br/> <br/> <br/> <br/> <br/>
+
+        <button onclick="switchEnvFn()">
+            <span id="switch-env">Режим: продукция</span>
+        </button>
+    </body>
+    <script>
+        const switchEnv = document.getElementById("switch-env");
+        const nameInput = document.getElementById("name");
+        const authInput = document.getElementById("auth");
+        const zapisAuthInput = document.getElementById("zapis-auth");
+        const zapisIdInput = document.getElementById("zapis-id");
+        const infoAuthInput = document.getElementById("zapis-id");
+
+        let env = "prod";
+
+        function switchEnvFn(ev) {
+            if (env == "prod") {
+                env = "dev";
+                switchEnv.textContent = "Режим: разработка";
+            }
+            else if (env == "dev") {
+                env = "prod";
+                switchEnv.textContent = "Режим: продукция";
+            }
+        }
+
+        function adduser(ev) {
+            let name = nameInput.value;
+            let auth = authInput.value;
+
+            let baseUrl = env == "prod" ? "https://sirius.aleq.dev/" : "http://127.0.0.1:5000/";
+
+            fetch(baseUrl + "adduser", {
+                method: "POST",
+                body: JSON.stringify({
+                    name: name,
+                    auth: auth
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            }).then(resp => { console.log(resp); });
+        }
+
+        function enroll(ev) {
+            let auth = zapisAuthInput.value;
+            let id = zapisIdInput.value;
+
+            let baseUrl = env == "prod" ? "https://sirius.aleq.dev/" : "http://127.0.0.1:5000/";
+
+            fetch(baseUrl + "enroll", {
+                method: "POST",
+                body: JSON.stringify({
+                    id: id,
+                    auth: auth
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            }).then(resp => { console.log(resp); });
+        }
+
+        function unEnroll(ev) {
+            let auth = zapisAuthInput.value;
+            let id = zapisIdInput.value;
+
+            let baseUrl = env == "prod" ? "https://sirius.aleq.dev/" : "http://127.0.0.1:5000/";
+
+            fetch(baseUrl + "unenroll", {
+                method: "POST",
+                body: JSON.stringify({
+                    id: id,
+                    auth: auth
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            }).then(resp => { console.log(resp); });
+        }
+    </script>
+</html>
