@@ -52,7 +52,7 @@
         <button onclick="getinfo()">
             Получить мероприятия
         </button>
-        <span id="infobox"></span>
+        <pre id="infobox"></pre>
 
         <br/> <br/>  <br/> <br/> <br/> <br/> <br/> <br/>
 
@@ -153,7 +153,38 @@
                 console.log(resp);
                 return resp.json();
             }).then(resp => {
-                infoBox.textContent = JSON.stringify(resp);
+                messages = "";
+
+                resp["events"].forEach(event => {
+                    messages += event["name"] + "\n";
+                    messages += "  - id: " + event["id"] + "\n";
+                    messages += "  - группы: "
+
+                    event["groupList"].forEach(group => {
+                        messages += group["name"] + " ";
+                    });
+
+                    messages += "\n";
+
+                    messages += "  - дата: " + event["date"] + "\n";
+                    messages += "  - начало: " + event["begin"] + "\n";
+                    messages += "  - конец: " + event["end"] + "\n";
+                    messages += "  - начало записи: " + event["recordBegin"] + "\n";
+                    messages += "  - конец записи: " + event["recordEnd"] + "\n";
+
+                    messages += "  - макс. чел.: " + event["maxCapacity"] + "\n";
+                    messages += "  - записались чел.: " + event["usersEnrolled"].length + "\n";
+
+                    messages += "  - записались:\n";
+
+                    event["usersEnrolled"].forEach(user => {
+                        messages += "    - " + user + "\n";
+                    });
+
+                    messages += "\n\n";
+                });
+
+                infoBox.textContent = messages;
             });
         }
     </script>
