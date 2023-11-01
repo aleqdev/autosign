@@ -42,12 +42,41 @@
             Отписать
         </button>
 
+
+        <br/> <br/> <br/>
+
+        <form>
+            <label for="dispatch-id">Id мероприятия:</label><br/>
+            <input type="text" id="dispatch-id" name="dispatch-id"/> <br/>
+            <label for="dispatch-auth">Авторизация:</label><br/>
+            <textarea id="dispatch-auth" name="dispatch-auth"></textarea> <br/>
+            <label for="dispatch-datetime">Время диспатча:</label><br/>
+            <input type="text" id="dispatch-datetime" name="dispatch-datetime"/> <br/>
+        </form>
+
+        <button onclick="addDispatch()">
+            Добавить на диспатч
+        </button>
+
+        <button onclick="removeDispatch()">
+            Удалить из диспатча
+        </button>
+
         <br/> <br/>  <br/> <br/> <br/> <br/> <br/> <br/>
 
         <form>
             <label for="info-auth">Авторизация:</label><br/>
             <textarea id="info-auth" name="info-auth"></textarea> <br/>
         </form>
+
+        <br/>
+
+        <button onclick="getdispatch()">
+            Получить диспатч
+        </button>
+        <pre id="dispatchbox"></pre>
+
+        <br/>
 
         <button onclick="getinfo()">
             Получить мероприятия
@@ -68,8 +97,17 @@
         const zapisIdInput = document.getElementById("zapis-id");
         const infoAuthInput = document.getElementById("info-auth");
         const infoBox = document.getElementById("infobox");
+        const dispatchAuthInput = document.getElementById("dispatch-auth");
+        const dispatchIdInput = document.getElementById("dispatch-id");
+        const dispatchDatetimeInput = document.getElementById("dispatch-datetime");
+        const dispatchBox = document.getElementById("dispatchbox");
 
         let env = "prod";
+
+        function SHOW(text) {
+            console.log(text);
+            console.log("ok");
+        }
 
         function switchEnvFn(ev) {
             if (env == "prod") {
@@ -97,7 +135,7 @@
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
                 }
-            }).then(resp => { console.log(resp); });
+            }).then(resp => { SHOW(resp); });
         }
 
         function enroll(ev) {
@@ -115,8 +153,9 @@
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
                 }
-            }).then(resp => { console.log(resp); });
+            }).then(resp => { SHOW(resp); });
         }
+
 
         function unEnroll(ev) {
             let auth = zapisAuthInput.value;
@@ -133,7 +172,45 @@
                 headers: {
                     "Content-type": "application/json; charset=UTF-8"
                 }
-            }).then(resp => { console.log(resp); });
+            }).then(resp => { SHOW(resp); });
+        }
+
+        function addDispatch(ev) {
+            let auth = dispatchAuthInput.value;
+            let id = dispatchIdInput.value;
+            let datetime = dispatchDatetimeInput.value;
+
+            let baseUrl = env == "prod" ? "https://sirius.aleq.dev/" : "http://127.0.0.1:5000/";
+
+            fetch(baseUrl + "adddispatch", {
+                method: "POST",
+                body: JSON.stringify({
+                    id: id,
+                    auth: auth,
+                    datetime: datetime
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            }).then(resp => { SHOW(resp); });
+        }
+
+        function removeDispatch(ev) {
+            let auth = dispatchAuthInput.value;
+            let id = dispatchIdInput.value;
+
+            let baseUrl = env == "prod" ? "https://sirius.aleq.dev/" : "http://127.0.0.1:5000/";
+
+            fetch(baseUrl + "removedispatch", {
+                method: "POST",
+                body: JSON.stringify({
+                    id: id,
+                    auth: auth
+                }),
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+            }).then(resp => { SHOW(resp); });
         }
 
         function getinfo(ev) {
@@ -185,6 +262,28 @@
                 });
 
                 infoBox.textContent = messages;
+            });
+        }
+
+        function getdispatch(ev) {
+            let baseUrl = env == "prod" ? "https://sirius.aleq.dev/" : "http://127.0.0.1:5000/";
+
+            fetch(baseUrl + "dispatches", {
+                method: "GET"
+            }).then(resp => {
+                console.log(resp);
+                return resp.json();
+            }).then(resp => {
+                messages = "";
+
+                resp.forEach(dispatch => {
+                    messages += "  - " + dispatch[0] + "\n";
+                    dispatch[1].forEach(auth => {
+                        messages += "    - " + auth + "\n";
+                    });
+                });
+
+                dispatchBox.textContent = messages;
             });
         }
     </script>
