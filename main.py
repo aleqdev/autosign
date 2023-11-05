@@ -159,11 +159,16 @@ def getdispatches():
 def dispatch_enroll(event_id):
     print("dispatch_enroll: ", datetime.now(), event_id)
 
-    for auth in dispatches[event_id].auths:
-        url = f"https://online.sochisirius.ru/schedule?mobile&task=enroll&id={event_id}"
-        headers = {'authorization': auth}
-        print(auth, " - ", requests.post(url, headers=headers).content)
+    for _ in range(3):
+        for _ in range(20):
+            for auth in dispatches[event_id].auths:
+                url = f"https://online.sochisirius.ru/schedule?mobile&task=enroll&id={event_id}"
+                headers = {'authorization': auth}
+                print(auth, " - ", requests.post(url, headers=headers).content)
+
+            time.sleep(0.05)
+        time.sleep(2)
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", debug=True)

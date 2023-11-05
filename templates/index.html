@@ -124,7 +124,7 @@
             let name = nameInput.value;
             let auth = authInput.value;
 
-            let baseUrl = env == "prod" ? "https://sirius.aleq.dev/" : "http://127.0.0.1:5000/";
+            let baseUrl = env == "prod" ? "https://hotels.aleq.dev/" : "http://127.0.0.1:5000/";
 
             fetch(baseUrl + "adduser", {
                 method: "POST",
@@ -142,7 +142,7 @@
             let auth = zapisAuthInput.value;
             let id = zapisIdInput.value;
 
-            let baseUrl = env == "prod" ? "https://sirius.aleq.dev/" : "http://127.0.0.1:5000/";
+            let baseUrl = env == "prod" ? "https://hotels.aleq.dev/" : "http://127.0.0.1:5000/";
 
             fetch(baseUrl + "enroll", {
                 method: "POST",
@@ -161,7 +161,7 @@
             let auth = zapisAuthInput.value;
             let id = zapisIdInput.value;
 
-            let baseUrl = env == "prod" ? "https://sirius.aleq.dev/" : "http://127.0.0.1:5000/";
+            let baseUrl = env == "prod" ? "https://hotels.aleq.dev/" : "http://127.0.0.1:5000/";
 
             fetch(baseUrl + "unenroll", {
                 method: "POST",
@@ -180,7 +180,7 @@
             let id = dispatchIdInput.value;
             let datetime = dispatchDatetimeInput.value;
 
-            let baseUrl = env == "prod" ? "https://sirius.aleq.dev/" : "http://127.0.0.1:5000/";
+            let baseUrl = env == "prod" ? "https://hotels.aleq.dev/" : "http://127.0.0.1:5000/";
 
             fetch(baseUrl + "adddispatch", {
                 method: "POST",
@@ -199,7 +199,7 @@
             let auth = dispatchAuthInput.value;
             let id = dispatchIdInput.value;
 
-            let baseUrl = env == "prod" ? "https://sirius.aleq.dev/" : "http://127.0.0.1:5000/";
+            let baseUrl = env == "prod" ? "https://hotels.aleq.dev/" : "http://127.0.0.1:5000/";
 
             fetch(baseUrl + "removedispatch", {
                 method: "POST",
@@ -216,7 +216,7 @@
         function getinfo(ev) {
             let auth = infoAuthInput.value;
 
-            let baseUrl = env == "prod" ? "https://sirius.aleq.dev/" : "http://127.0.0.1:5000/";
+            let baseUrl = env == "prod" ? "https://hotels.aleq.dev/" : "http://127.0.0.1:5000/";
 
             fetch(baseUrl + "getinfo", {
                 method: "POST",
@@ -266,7 +266,7 @@
         }
 
         function getdispatch(ev) {
-            let baseUrl = env == "prod" ? "https://sirius.aleq.dev/" : "http://127.0.0.1:5000/";
+            let baseUrl = env == "prod" ? "https://hotels.aleq.dev/" : "http://127.0.0.1:5000/";
 
             fetch(baseUrl + "dispatches", {
                 method: "GET"
