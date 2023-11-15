@@ -94,7 +94,7 @@ def getinfo():
 
     print("getinfo", content["auth"])
 
-    url = f"https://online.sochisirius.ru/schedule?mobile&task=getSchedule&rec=true&begin=31.10.2023&end=14.11.2023"
+    url = f"https://online.sochisirius.ru/schedule?mobile&task=getSchedule&rec=true&begin=14.11.2023&end=28.11.2023"
     headers = {'authorization': content["auth"]}
 
     resp = requests.post(url, headers=headers)
